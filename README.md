@@ -1,6 +1,7 @@
 # auth0project
-
+**1.Deploying with Docker and Kuberenetes** 
 Please run the below docker build command with the arguements replacing with the actual values. These values are available from AUth0 site.
+
 
 **docker build --build-arg AUTH0DOMAIN="AUTH0DOMAIN" --build-arg client_id="client-id" --build-arg="client-secret" --build-arg audience="<URL>/api/v2" -t imagename:tag .**
 
@@ -27,7 +28,8 @@ _W0514 20:39:51.045633   10996 main.go:291] Unable to resolve the current Docker
 🎉  Opening service default/auth0crud in default browser...
 ❗  Because you are using a Docker driver on windows, the terminal needs to be open to run it.
 
-**Function calls**
+
+**2.Function calls**
 
 python .\Auth0CRUDoperations.py get_users    
 
@@ -37,7 +39,7 @@ python .\Auth0CRUDoperations.py create_user amithtest4@gmail.com Amith123# Usern
 
 
 
-**API calls**
+**3.API calls**
 
  Get_users list
  
