@@ -1,7 +1,10 @@
+from flask import Flask, request, jsonify
 import requests
 import sys
 import json
 import os
+
+app = Flask(__name__)
 
 # Auth0 Management API details
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
@@ -9,7 +12,7 @@ AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 # Auth0 OAuth/Token endpoint details
 AUTH0_CLIENT_ID = os.environ.get('client_id')
 AUTH0_CLIENT_SECRET = os.environ.get('client_secret')
-
+@app.route('/users', methods=['GET'])
 def get_users():
     AUTH0_API_TOKEN=get_access_token()
     url = f'https://{AUTH0_DOMAIN}/api/v2/users'
@@ -22,8 +25,11 @@ def get_users():
         return response.json()
     else:
         raise Exception(f"Error retrieving users: {response.text}")
-
-def create_user(email, password, connection):
+@app.route('/users', methods=['POST'])
+def create_user():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    connection = request.json.get('connection')
     AUTH0_API_TOKEN=get_access_token()
     url = f'https://{AUTH0_DOMAIN}/api/v2/users'
     headers = {
@@ -40,7 +46,7 @@ def create_user(email, password, connection):
         return response.json()
     else:
         raise Exception(f"Error creating user: {response.text}")
-
+@app.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     AUTH0_API_TOKEN=get_access_token()
     users=get_users()
@@ -74,30 +80,34 @@ def get_access_token():
         return response.json()['access_token']
     else:
         raise Exception(f"Error retrieving access token: {response.text}")
-AUTH0_API_TOKEN = get_access_token
+AUTH0_API_TOKEN = get_access_token()
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python auth0test.py <action> [options]")
-        sys.exit(1)
-    action = sys.argv[1]
-    if action == "get_users":
-        print(get_users())
-    elif action == "create_user":
-        if len(sys.argv) != 5:
-            print("Usage: python auth0test.py create_user <email> <password> <connection>")
+    if len(sys.argv) > 1:
+        if len(sys.argv) < 2:
+            print("Usage: python Auth0CRUDoperations.py <action> [options]")
             sys.exit(1)
-        email = sys.argv[2]
-        password = sys.argv[3]
-        connection = sys.argv[4]
-        print(create_user(email, password, connection))
-    elif action == "delete_user":
-        if len(sys.argv) != 3:
-            print("Usage: python auth0test.py delete_user <user_id>")
+        action = sys.argv[1]
+        if action == "get_users":
+            print(get_users())
+        elif action == "create_user":
+            if len(sys.argv) != 5:
+                print("Usage: python Auth0CRUDoperations.py create_user <email> <password> <connection>")
+                sys.exit(1)
+            email = sys.argv[2]
+            password = sys.argv[3]
+            connection = sys.argv[4]
+            print(create_user(email, password, connection))
+        elif action == "delete_user":
+            if len(sys.argv) != 3:
+                print("Usage: python Auth0CRUDoperations.py delete_user <user_id>")
+                sys.exit(1)
+            user_id = sys.argv[2]
+            print(delete_user(user_id))
+        elif action == "get_access_token":
+            print(get_access_token())
+        else:
+            print("Invalid action. Please use 'get_users', 'create_user', 'delete_user', or 'get_access_token'.")
             sys.exit(1)
-        user_id = sys.argv[2]
-        print(delete_user(user_id))
-    elif action == "get_access_token":
-        print(get_access_token())
     else:
-        print("Invalid action. Please use 'get_users', 'create_user', 'delete_user', or 'get_access_token'.")
-        sys.exit(1)
+         app.run(debug=True)
+   
