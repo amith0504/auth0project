@@ -37,4 +37,17 @@ python .\Auth0CRUDoperations.py create_user amithtest4@gmail.com Amith123# Usern
 
 
 
+**API calls**
+
+ Get_users list
  
+**curl http://localhost:5000/users**
+
+ Create_user with the inputs
+ 
+ **curl -Uri "http://localhost:5000/users" -Method POST -Headers @{ "Content-Type" = "application/json" } -Body (ConvertTo-Json @{ email = "newuser1100@example.com"; password = "newpassword@123"; connection = "Username-Password-Authentication" })**
+
+delete_user with user_id as input
+
+**curl -Uri "http://localhost:5000/users/auth0|6641dd484d1c357206d55c6d" -Method DELETE**
+  
