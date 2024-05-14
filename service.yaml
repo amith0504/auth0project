@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-05-14T15:01:01Z"
+  labels:
+    app: auth0crud
+  name: auth0crud
+  namespace: default
+  resourceVersion: "669"
+  uid: 7191633f-f350-4a33-84e0-0ab0439349fd
+spec:
+  clusterIP: 10.103.247.179
+  clusterIPs:
+  - 10.103.247.179
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30273
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: auth0crud
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
