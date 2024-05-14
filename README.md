@@ -27,4 +27,14 @@ _W0514 20:39:51.045633   10996 main.go:291] Unable to resolve the current Docker
 🎉  Opening service default/auth0crud in default browser...
 ❗  Because you are using a Docker driver on windows, the terminal needs to be open to run it.
 
+**Function calls**
+
+python .\Auth0CRUDoperations.py get_users    
+
+python .\Auth0CRUDoperations.py delete_user "auth0|6641fee9587030bfedde6b"      
+
+python .\Auth0CRUDoperations.py create_user amithtest4@gmail.com Amith123# Username-Password-Authentication
+
+
+
  
