@@ -11,6 +11,7 @@ My Image is already pushed to dockerhub. So we can directly deploy it as below.
 **kubectl expose deployment auth0crud --type=NodePort --port=5000**
  
  **minikube service auth0crud** 
+ 
 _W0514 20:39:51.045633   10996 main.go:291] Unable to resolve the current Docker CLI context "default": context "default": context not found: open C:\Users\amith\.docker\contexts\meta\37a8eec1ce19687d132fe29051dca629d164e2c4958ba141d5f4133a33f0688f\meta.json: The system cannot find the path specified._
 |-----------|-----------|-------------|---------------------------|
 | NAMESPACE |   NAME    | TARGET PORT |            URL            |
