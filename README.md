@@ -7,6 +7,7 @@ Please run the below docker build command with the arguements replacing with the
 My Image is already pushed to dockerhub. So we can directly deploy it as below.
 
 **kubectl create deployment auth0crud --image=amith0504/auth0repo:11**
+
 **kubectl expose deployment auth0crud --type=NodePort --port=5000**
  
  **minikube service auth0crud** 
