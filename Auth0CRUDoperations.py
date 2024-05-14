@@ -43,16 +43,20 @@ def create_user(email, password, connection):
 
 def delete_user(user_id):
     AUTH0_API_TOKEN=get_access_token()
-    url = f'https://{AUTH0_DOMAIN}/api/v2/users/{user_id}'
-    headers = {
+    users=get_users()
+    if user_id not in [user['user_id'] for user in users]:
+        raise Exception(f"User with ID {user_id} not found")
+    else:
+       url = f'https://{AUTH0_DOMAIN}/api/v2/users/{user_id}'
+       headers = {
         'Authorization': f'Bearer {AUTH0_API_TOKEN}',
         'Content-Type': 'application/json'
-    }
-    response = requests.delete(url, headers=headers)
-    if response.status_code == 204:
-        return "User deleted successfully"
-    else:
-        raise Exception(f"Error deleting user: {response.text}")
+        }
+       response = requests.delete(url, headers=headers)
+       if response.status_code == 204:
+            return "User deleted successfully"
+       else:
+            raise Exception(f"Error deleting user: {response.text}")
 
 def get_access_token():
     url = f'https://{AUTH0_DOMAIN}/oauth/token'
