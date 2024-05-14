@@ -25,8 +25,28 @@ def get_users():
         return response.json()
     else:
         raise Exception(f"Error retrieving users: {response.text}")
+
+def create_user(email, password, connection):
+     AUTH0_API_TOKEN = get_access_token()
+     url = f'https://{AUTH0_DOMAIN}/api/v2/users'
+     headers = {
+        'Authorization': f'Bearer {AUTH0_API_TOKEN}',
+        'Content-Type': 'application/json'
+     }
+     user_data = {
+        'email': email,
+        'password': password,
+        'connection': connection
+     }
+     response = requests.post(url, headers=headers, json=user_data)
+
+     if response.status_code == 201:
+        return response.json()
+     else:
+        raise Exception(f"Error creating user: {response.text}")
+
 @app.route('/users', methods=['POST'])
-def create_user():
+def create_user_api():
     email = request.json.get('email')
     password = request.json.get('password')
     connection = request.json.get('connection')
@@ -109,5 +129,5 @@ if __name__ == "__main__":
             print("Invalid action. Please use 'get_users', 'create_user', 'delete_user', or 'get_access_token'.")
             sys.exit(1)
     else:
-         app.run(debug=True)
+         app.run(debug=True,host='0.0.0.0')
    
